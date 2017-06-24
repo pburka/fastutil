@@ -143,6 +143,11 @@ $(SORTED_SETS): drv/SortedSet.drv; ./gencsource.sh $< $@ >$@
 
 CSOURCES += $(SORTED_SETS)
 
+NAVIGABLE_SETS := $(foreach k,$(TYPE_NOBOOL), $(GEN_SRCDIR)/$(PKG_PATH)/$(PACKAGE_$(k))/$(k)NavigableSet.c)
+$(NAVIGABLE_SETS): drv/NavigableSet.drv; ./gencsource.sh $< $@ >$@
+
+CSOURCES += $(NAVIGABLE_SETS)
+
 FUNCTIONS := $(foreach k,$(TYPE_NOBOOL), $(foreach v,$(TYPE), $(GEN_SRCDIR)/$(PKG_PATH)/$(PACKAGE_$(k))/$(k)2$(v)Function.c))
 $(FUNCTIONS): drv/Function.drv; ./gencsource.sh $< $@ >$@
 

@@ -324,7 +324,9 @@ fi)\
 "#define SET ${TYPE_CAP[$k]}Set\n"\
 "#define HASH ${TYPE_CAP[$k]}Hash\n"\
 "#define SORTED_SET ${TYPE_CAP[$k]}SortedSet\n"\
+"#define NAVIGABLE_SET ${TYPE_CAP[$k]}NavigableSet\n"\
 "#define STD_SORTED_SET ${TYPE_STD[$k]}SortedSet\n"\
+"#define STD_NAVIGABLE_SET ${TYPE_STD[$k]}NavigableSet\n"\
 "#define FUNCTION ${TYPE_CAP[$k]}2${TYPE_CAP[$v]}Function\n"\
 "#define MAP ${TYPE_CAP[$k]}2${TYPE_CAP[$v]}Map\n"\
 "#define SORTED_MAP ${TYPE_CAP[$k]}2${TYPE_CAP[$v]}SortedMap\n"\
@@ -463,6 +465,7 @@ fi)\
 "#define SYNCHRONIZED_COLLECTION Synchronized${TYPE_CAP[$k]}Collection\n"\
 "#define SYNCHRONIZED_SET Synchronized${TYPE_CAP[$k]}Set\n"\
 "#define SYNCHRONIZED_SORTED_SET Synchronized${TYPE_CAP[$k]}SortedSet\n"\
+"#define SYNCHRONIZED_NAVIGABLE_SET Synchronized${TYPE_CAP[$k]}NavigableSet\n"\
 "#define SYNCHRONIZED_FUNCTION Synchronized${TYPE_CAP[$k]}2${TYPE_CAP[$v]}Function\n"\
 "#define SYNCHRONIZED_MAP Synchronized${TYPE_CAP[$k]}2${TYPE_CAP[$v]}Map\n"\
 "#define SYNCHRONIZED_LIST Synchronized${TYPE_CAP[$k]}List\n"\
@@ -474,6 +477,7 @@ fi)\
 "#define UNMODIFIABLE_COLLECTION Unmodifiable${TYPE_CAP[$k]}Collection\n"\
 "#define UNMODIFIABLE_SET Unmodifiable${TYPE_CAP[$k]}Set\n"\
 "#define UNMODIFIABLE_SORTED_SET Unmodifiable${TYPE_CAP[$k]}SortedSet\n"\
+"#define UNMODIFIABLE_NAVIGABLE_SET Unmodifiable${TYPE_CAP[$k]}NavigableSet\n"\
 "#define UNMODIFIABLE_FUNCTION Unmodifiable${TYPE_CAP[$k]}2${TYPE_CAP[$v]}Function\n"\
 "#define UNMODIFIABLE_MAP Unmodifiable${TYPE_CAP[$k]}2${TYPE_CAP[$v]}Map\n"\
 "#define UNMODIFIABLE_LIST Unmodifiable${TYPE_CAP[$k]}List\n"\

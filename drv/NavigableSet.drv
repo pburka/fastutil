@@ -1,0 +1,152 @@
+/*
+ * Copyright (C) 2017 Peter Burka and Sebastiano Vigna
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package PACKAGE;
+
+import java.util.NavigableSet;
+import java.util.Collection;
+
+/** 
+ * A type-specific {@link NavigableSet}; provides some additional methods that use polymorphism to avoid (un)boxing.
+ *
+ * @see NavigableSet
+ */
+
+public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, NavigableSet<KEY_GENERIC_CLASS> {
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	KEY_GENERIC_TYPE ceiling(KEY_GENERIC_TYPE e);
+
+	@Override
+	KEY_BIDI_ITERATOR KEY_GENERIC descendingIterator();
+
+	@Override
+	NAVIGABLE_SET KEY_GENERIC descendingSet();
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	KEY_GENERIC_TYPE floor(KEY_GENERIC_TYPE e);
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE to);
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE to, boolean inclusive);
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	KEY_GENERIC_TYPE higher(KEY_GENERIC_TYPE e);
+
+	@Override
+	KEY_BIDI_ITERATOR KEY_GENERIC iterator();
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	KEY_GENERIC_TYPE lower(KEY_GENERIC_TYPE e);
+
+	/* TODO: figure out what to do with pollFirst()/pollLast() */
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_TYPE from, KEY_GENERIC_TYPE to);
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_TYPE from, boolean fromInclusive, KEY_GENERIC_TYPE to, boolean toInclusive);
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE from);
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE from, boolean inclusive);
+
+#if KEYS_PRIMITIVE
+	@Deprecated
+	@Override
+	default KEY_GENERIC_CLASS ceiling(KEY_GENERIC_CLASS e) {
+		return ceiling(e.KEY_VALUE());
+	}
+
+	@Deprecated
+	@Override
+	default KEY_GENERIC_CLASS floor(KEY_GENERIC_CLASS e) {
+		return floor(e.KEY_VALUE());
+	}
+
+	@Deprecated
+	@Override
+	default NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS to) {
+		return headSet(to.KEY_VALUE());
+	}
+
+	@Deprecated
+	@Override
+	default NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS to, boolean inclusive) {
+		return headSet(to.KEY_VALUE(), inclusive);
+	}
+
+	@Deprecated
+	@Override
+	default KEY_GENERIC_CLASS higher(KEY_GENERIC_CLASS e) {
+		return higher(e.KEY_VALUE());
+	}
+
+	@Deprecated
+	@Override
+	default KEY_GENERIC_CLASS lower(KEY_GENERIC_CLASS e) {
+		return lower(e.KEY_VALUE());
+	}
+
+	@Deprecated
+	@Override
+	default NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_CLASS from, KEY_GENERIC_CLASS to) {
+		return subSet(from.KEY_VALUE(), to.KEY_VALUE());
+	}
+
+	@Deprecated
+	@Override
+	default NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_CLASS from, boolean fromInclusive, KEY_GENERIC_CLASS to, boolean toInclusive) {
+		return subSet(from.KEY_VALUE(), fromInclusive, to.KEY_VALUE(), toInclusive);
+	}
+
+	@Deprecated
+	@Override
+	default NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_CLASS from) {
+		return tailSet(from.KEY_VALUE());
+	}
+
+	@Deprecated
+	@Override
+	default NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_CLASS from, boolean inclusive) {
+		return tailSet(from.KEY_VALUE(), inclusive);
+	}
+#endif
+}
