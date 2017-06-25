@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+// TODOs:
+// - consider adding descendingIterator(k), to match SORTED_SET#iterator(k)
+//
+
 package PACKAGE;
 
 import java.util.NavigableSet;
