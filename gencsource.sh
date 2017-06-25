@@ -330,11 +330,14 @@ fi)\
 "#define FUNCTION ${TYPE_CAP[$k]}2${TYPE_CAP[$v]}Function\n"\
 "#define MAP ${TYPE_CAP[$k]}2${TYPE_CAP[$v]}Map\n"\
 "#define SORTED_MAP ${TYPE_CAP[$k]}2${TYPE_CAP[$v]}SortedMap\n"\
+"#define NAVIGABLE_MAP ${TYPE_CAP[$k]}2${TYPE_CAP[$v]}NavigableMap\n"\
 "#if KEYS_REFERENCE\n"\
 "#define STD_SORTED_MAP SortedMap\n"\
+"#define STD_NAVIGABLE_MAP NavigableMap\n"\
 "#define STRATEGY Strategy\n"\
 "#else\n"\
 "#define STD_SORTED_MAP ${TYPE_CAP[$k]}2${TYPE_CAP[$v]}SortedMap\n"\
+"#define STD_NAVIGABLE_MAP ${TYPE_CAP[$k]}2${TYPE_CAP[$v]}NavigableMap\n"\
 "#define STRATEGY PACKAGE.${TYPE_CAP[$k]}Hash.Strategy\n"\
 "#endif\n"\
 "#define LIST ${TYPE_CAP[$k]}List\n"\

@@ -1,0 +1,227 @@
+/*
+ * Copyright (C) 2017 Peter Burka and Sebastiano Vigna
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// TODOs: 
+//
+// - should the ceilingKey(k), floorKey(k), ... APIs be deprecated? They do 
+// provide a more robust way to detect absence, but at the cost of allocation.
+//
+// - consider extending with ceilingValue(k), floorValue(k), ... APIs.
+// These would be equivalent to calling, e.g. ceilingEntry(k).getValue(),
+// avoiding the allocation.
+//
+
+package PACKAGE;
+
+import java.util.Map;
+import java.util.NavigableMap;
+
+/** 
+ * A type-specific {@link NavigableMap}; provides some additional methods that use polymorphism to avoid (un)boxing.
+ *
+ * @see NavigableMap
+ */
+
+public interface NAVIGABLE_MAP KEY_VALUE_GENERIC extends SORTED_MAP KEY_VALUE_GENERIC, NavigableMap<KEY_GENERIC_CLASS, VALUE_GENERIC_CLASS> {
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	MAP.Entry KEY_VALUE_GENERIC ceilingEntry(KEY_GENERIC_TYPE e);
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	MAP.Entry KEY_VALUE_GENERIC floorEntry(KEY_GENERIC_TYPE e);
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	MAP.Entry KEY_VALUE_GENERIC higherEntry(KEY_GENERIC_TYPE e);
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	MAP.Entry KEY_VALUE_GENERIC lowerEntry(KEY_GENERIC_TYPE e);
+
+	@Override
+	MAP.Entry KEY_VALUE_GENERIC firstEntry();
+
+	@Override
+	MAP.Entry KEY_VALUE_GENERIC lastEntry();
+
+	@Override
+	MAP.Entry KEY_VALUE_GENERIC pollFirstEntry();
+
+	@Override
+	MAP.Entry KEY_VALUE_GENERIC pollLastEntry();
+
+#if KEYS_PRIMITIVE
+	@Deprecated
+	@Override
+	default MAP.Entry KEY_VALUE_GENERIC ceilingEntry(KEY_GENERIC_CLASS e) {
+		return ceilingEntry(e.KEY_VALUE());
+	}
+
+	@Deprecated
+	@Override
+	default MAP.Entry KEY_VALUE_GENERIC floorEntry(KEY_GENERIC_CLASS e) {
+		return floorEntry(e.KEY_VALUE());
+	}
+
+	@Deprecated
+	@Override
+	default MAP.Entry KEY_VALUE_GENERIC higherEntry(KEY_GENERIC_CLASS e) {
+		return higherEntry(e.KEY_VALUE());
+	}
+
+	@Deprecated
+	@Override
+	default MAP.Entry KEY_VALUE_GENERIC lowerEntry(KEY_GENERIC_CLASS e) {
+		return lowerEntry(e.KEY_VALUE());
+	}
+#endif
+
+	KEY_GENERIC_TYPE ceilingKeyOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue);
+
+	KEY_GENERIC_TYPE floorKeyOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue);
+
+	KEY_GENERIC_TYPE higherKeyOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue);
+
+	KEY_GENERIC_TYPE lowerKeyOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue);
+
+#if KEYS_REFERENCE
+	@Override
+	default KEY_GENERIC_CLASS ceilingKey(KEY_GENERIC_CLASS e) {
+		return ceilingKeyOrDefault(e, null);
+	}
+
+	@Override
+	default KEY_GENERIC_CLASS floorKey(KEY_GENERIC_CLASS e) {
+		return floorKeyOrDefault(e, null);
+	}
+
+	@Override
+	default KEY_GENERIC_CLASS higherKey(KEY_GENERIC_CLASS e) {
+		return higherKeyOrDefault(e, null);
+	}
+
+	@Override
+	default KEY_GENERIC_CLASS lowerKey(KEY_GENERIC_CLASS e) {
+		return lowerKeyOrDefault(e, null);
+	}
+#else
+	@Override
+	@Deprecated
+	KEY_GENERIC_CLASS ceilingKey(KEY_GENERIC_CLASS e);
+
+	@Override
+	@Deprecated
+	KEY_GENERIC_CLASS floorKey(KEY_GENERIC_CLASS e);
+
+	@Override
+	@Deprecated
+	KEY_GENERIC_CLASS higherKey(KEY_GENERIC_CLASS e);
+
+	@Override
+	@Deprecated
+	KEY_GENERIC_CLASS lowerKey(KEY_GENERIC_CLASS e);
+#endif
+
+	@Override
+	NAVIGABLE_SET KEY_GENERIC descendingKeySet();
+
+	@Override
+	NAVIGABLE_SET KEY_GENERIC navigableKeySet();
+
+	@Override
+	NAVIGABLE_MAP KEY_VALUE_GENERIC descendingMap();
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	NAVIGABLE_MAP KEY_VALUE_GENERIC headMap(KEY_GENERIC_TYPE e, boolean inclusive);
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	default NAVIGABLE_MAP KEY_VALUE_GENERIC headMap(KEY_GENERIC_TYPE e) {
+		return headMap(e, false);
+	}
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	NAVIGABLE_MAP KEY_VALUE_GENERIC tailMap(KEY_GENERIC_TYPE e, boolean inclusive);
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	default NAVIGABLE_MAP KEY_VALUE_GENERIC tailMap(KEY_GENERIC_TYPE e) {
+		return tailMap(e, true);
+	}
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	NAVIGABLE_MAP KEY_VALUE_GENERIC subMap(KEY_GENERIC_TYPE from, boolean fromInclusive, KEY_GENERIC_TYPE to, boolean toInclusive);
+
+#if KEYS_REFERENCE
+	@Override
+#endif
+	default NAVIGABLE_MAP KEY_VALUE_GENERIC subMap(KEY_GENERIC_TYPE from, KEY_GENERIC_TYPE to) {
+		return subMap(from, true, to, false);
+	}
+
+#if KEYS_PRIMITIVE
+	@Deprecated
+	@Override
+	default NAVIGABLE_MAP KEY_VALUE_GENERIC headMap(KEY_GENERIC_CLASS e, boolean inclusive) {
+		return headMap(e.KEY_VALUE(), inclusive);
+	}
+
+	@Deprecated
+	@Override
+	default NAVIGABLE_MAP KEY_VALUE_GENERIC headMap(KEY_GENERIC_CLASS e) {
+		return headMap(e.KEY_VALUE(), false);
+	}
+
+	@Deprecated
+	@Override
+	default NAVIGABLE_MAP KEY_VALUE_GENERIC tailMap(KEY_GENERIC_CLASS e, boolean inclusive) {
+		return tailMap(e.KEY_VALUE(), inclusive);
+	}
+
+	@Deprecated
+	@Override
+	default NAVIGABLE_MAP KEY_VALUE_GENERIC tailMap(KEY_GENERIC_CLASS e) {
+		return tailMap(e.KEY_VALUE(), true);
+	}
+
+	@Deprecated
+	@Override
+	default NAVIGABLE_MAP KEY_VALUE_GENERIC subMap(KEY_GENERIC_CLASS from, boolean fromInclusive, KEY_GENERIC_CLASS to, boolean toInclusive) {
+		return subMap(from.KEY_VALUE(), fromInclusive, to.KEY_VALUE(), toInclusive);
+	}
+
+	@Deprecated
+	@Override
+	default NAVIGABLE_MAP KEY_VALUE_GENERIC subMap(KEY_GENERIC_CLASS from, KEY_GENERIC_CLASS to) {
+		return subMap(from.KEY_VALUE(), true, to.KEY_VALUE(), false);
+	}
+#endif
+
+}

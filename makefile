@@ -163,6 +163,11 @@ $(SORTED_MAPS): drv/SortedMap.drv; ./gencsource.sh $< $@ >$@
 
 CSOURCES += $(SORTED_MAPS)
 
+NAVIGABLE_MAPS := $(foreach k,$(TYPE_NOBOOL), $(foreach v,$(TYPE), $(GEN_SRCDIR)/$(PKG_PATH)/$(PACKAGE_$(k))/$(k)2$(v)NavigableMap.c))
+$(NAVIGABLE_MAPS): drv/NavigableMap.drv; ./gencsource.sh $< $@ >$@
+
+CSOURCES += $(NAVIGABLE_MAPS)
+
 LISTS := $(foreach k,$(TYPE), $(GEN_SRCDIR)/$(PKG_PATH)/$(PACKAGE_$(k))/$(k)List.c)
 $(LISTS): drv/List.drv; ./gencsource.sh $< $@ >$@
 

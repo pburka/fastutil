@@ -17,7 +17,6 @@
 package PACKAGE;
 
 import java.util.NavigableSet;
-import java.util.Collection;
 
 /** 
  * A type-specific {@link NavigableSet}; provides some additional methods that use polymorphism to avoid (un)boxing.
@@ -27,6 +26,15 @@ import java.util.Collection;
 
 public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, NavigableSet<KEY_GENERIC_CLASS> {
 
+	/**
+	 * Returns the least element in this set greater than or equal to the given element,
+	 * or {@code defaultValue} if there is no such element.
+	 * @param e the value to match.
+	 * @param defaultValue return value if no match.
+	 * @return the least element in this set greater than or equal to the given element,
+	 * or {@code defaultValue} if there is no such element.
+	 * @see NavigableMap#ceiling(Object)
+	 */
 	KEY_GENERIC_TYPE ceilingOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue);
 
 	KEY_GENERIC_TYPE floorOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue);
@@ -48,7 +56,9 @@ public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, Navig
 #if KEYS_REFERENCE
 	@Override
 #endif
-	NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE to);
+	default NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE to) {
+		return headSet(to, false);
+	}
 
 #if KEYS_REFERENCE
 	@Override
@@ -61,7 +71,9 @@ public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, Navig
 #if KEYS_REFERENCE
 	@Override
 #endif
-	NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_TYPE from, KEY_GENERIC_TYPE to);
+	default NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_TYPE from, KEY_GENERIC_TYPE to) {
+		return subSet(from, true, to, false);
+	}
 
 #if KEYS_REFERENCE
 	@Override
@@ -71,7 +83,9 @@ public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, Navig
 #if KEYS_REFERENCE
 	@Override
 #endif
-	NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE from);
+	default NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE from) {
+		return tailSet(from, true);
+	}
 
 #if KEYS_REFERENCE
 	@Override
@@ -136,7 +150,7 @@ public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, Navig
 	@Deprecated
 	@Override
 	default NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS to) {
-		return headSet(to.KEY_VALUE());
+		return headSet(to.KEY_VALUE(), false);
 	}
 
 	@Deprecated
@@ -148,7 +162,7 @@ public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, Navig
 	@Deprecated
 	@Override
 	default NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_CLASS from, KEY_GENERIC_CLASS to) {
-		return subSet(from.KEY_VALUE(), to.KEY_VALUE());
+		return subSet(from.KEY_VALUE(), true, to.KEY_VALUE(), false);
 	}
 
 	@Deprecated
@@ -160,7 +174,7 @@ public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, Navig
 	@Deprecated
 	@Override
 	default NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_CLASS from) {
-		return tailSet(from.KEY_VALUE());
+		return tailSet(from.KEY_VALUE(), true);
 	}
 
 	@Deprecated
