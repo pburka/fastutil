@@ -27,21 +27,23 @@ import java.util.Collection;
 
 public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, NavigableSet<KEY_GENERIC_CLASS> {
 
-#if KEYS_REFERENCE
-	@Override
-#endif
-	KEY_GENERIC_TYPE ceiling(KEY_GENERIC_TYPE e);
+	KEY_GENERIC_TYPE ceilingOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue);
+
+	KEY_GENERIC_TYPE floorOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue);
+
+	KEY_GENERIC_TYPE higherOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue);
+
+	KEY_GENERIC_TYPE lowerOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue);
+
+	KEY_GENERIC_TYPE pollFirstOrDefault(KEY_GENERIC_TYPE defaultValue);
+
+	KEY_GENERIC_TYPE pollLastOrDefault(KEY_GENERIC_TYPE defaultValue);
 
 	@Override
 	KEY_BIDI_ITERATOR KEY_GENERIC descendingIterator();
 
 	@Override
 	NAVIGABLE_SET KEY_GENERIC descendingSet();
-
-#if KEYS_REFERENCE
-	@Override
-#endif
-	KEY_GENERIC_TYPE floor(KEY_GENERIC_TYPE e);
 
 #if KEYS_REFERENCE
 	@Override
@@ -53,20 +55,8 @@ public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, Navig
 #endif
 	NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE to, boolean inclusive);
 
-#if KEYS_REFERENCE
-	@Override
-#endif
-	KEY_GENERIC_TYPE higher(KEY_GENERIC_TYPE e);
-
 	@Override
 	KEY_BIDI_ITERATOR KEY_GENERIC iterator();
-
-#if KEYS_REFERENCE
-	@Override
-#endif
-	KEY_GENERIC_TYPE lower(KEY_GENERIC_TYPE e);
-
-	/* TODO: figure out what to do with pollFirst()/pollLast() */
 
 #if KEYS_REFERENCE
 	@Override
@@ -88,18 +78,60 @@ public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, Navig
 #endif
 	NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE from, boolean inclusive);
 
-#if KEYS_PRIMITIVE
-	@Deprecated
+#if KEYS_REFERENCE
 	@Override
 	default KEY_GENERIC_CLASS ceiling(KEY_GENERIC_CLASS e) {
-		return ceiling(e.KEY_VALUE());
+		return ceilingOrDefault(e, null);
 	}
+
+	@Override
+	default KEY_GENERIC_CLASS floor(KEY_GENERIC_CLASS e) {
+		return floorOrDefault(e, null);
+	}
+
+	@Override
+	default KEY_GENERIC_CLASS higher(KEY_GENERIC_CLASS e) {
+		return higherOrDefault(e, null);
+	}
+
+	@Override
+	default KEY_GENERIC_CLASS lower(KEY_GENERIC_CLASS e) {
+		return lowerOrDefault(e, null);
+	}
+
+	@Override
+	default KEY_GENERIC_CLASS pollFirst() {
+		return pollFirstOrDefault(null);
+	}
+
+	@Override
+	default KEY_GENERIC_CLASS pollLast() {
+		return pollLastOrDefault(null);
+	}
+#elif KEYS_PRIMITIVE
+	@Deprecated
+	@Override
+	KEY_GENERIC_CLASS ceiling(KEY_GENERIC_CLASS e);
 
 	@Deprecated
 	@Override
-	default KEY_GENERIC_CLASS floor(KEY_GENERIC_CLASS e) {
-		return floor(e.KEY_VALUE());
-	}
+	KEY_GENERIC_CLASS floor(KEY_GENERIC_CLASS e);
+
+	@Deprecated
+	@Override
+	KEY_GENERIC_CLASS higher(KEY_GENERIC_CLASS e);
+
+	@Deprecated
+	@Override
+	KEY_GENERIC_CLASS lower(KEY_GENERIC_CLASS e);
+
+	@Deprecated
+	@Override
+	KEY_GENERIC_CLASS pollFirst();
+
+	@Deprecated
+	@Override
+	KEY_GENERIC_CLASS pollLast();
 
 	@Deprecated
 	@Override
@@ -111,18 +143,6 @@ public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, Navig
 	@Override
 	default NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS to, boolean inclusive) {
 		return headSet(to.KEY_VALUE(), inclusive);
-	}
-
-	@Deprecated
-	@Override
-	default KEY_GENERIC_CLASS higher(KEY_GENERIC_CLASS e) {
-		return higher(e.KEY_VALUE());
-	}
-
-	@Deprecated
-	@Override
-	default KEY_GENERIC_CLASS lower(KEY_GENERIC_CLASS e) {
-		return lower(e.KEY_VALUE());
 	}
 
 	@Deprecated
