@@ -39,7 +39,7 @@ public final class SORTED_SETS {
 	 * a type-specific sorted set.
 	 */
 
-	public static class EmptySet KEY_GENERIC extends SETS.EmptySet KEY_GENERIC implements NAVIGABLE_SET KEY_GENERIC, java.io.Serializable, Cloneable {
+	public static class EmptySet KEY_GENERIC extends SETS.EmptySet KEY_GENERIC implements SORTED_SET KEY_GENERIC, java.io.Serializable, Cloneable {
 		private static final long serialVersionUID = -7046029254386353129L;
 
 		protected EmptySet() {}
@@ -50,25 +50,15 @@ public final class SORTED_SETS {
 
 		@Override
 		SUPPRESS_WARNINGS_KEY_UNCHECKED
-		public KEY_BIDI_ITERATOR KEY_GENERIC descendingIterator() { return ITERATORS.EMPTY_ITERATOR; }
+		public SORTED_SET KEY_GENERIC subSet(KEY_GENERIC_TYPE from, KEY_GENERIC_TYPE to) { return EMPTY_SET; }
 
 		@Override
 		SUPPRESS_WARNINGS_KEY_UNCHECKED
-		public NAVIGABLE_SET KEY_GENERIC descendingSet() { return EMPTY_SET; }
+		public SORTED_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE from) { return EMPTY_SET; }
 
 		@Override
 		SUPPRESS_WARNINGS_KEY_UNCHECKED
-		public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_TYPE from, boolean fromInclusive, KEY_GENERIC_TYPE to, boolean toInclusive) { 
-			return EMPTY_SET; 
-		}
-
-		@Override
-		SUPPRESS_WARNINGS_KEY_UNCHECKED
-		public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE from, boolean inclusive) { return EMPTY_SET; }
-
-		@Override
-		SUPPRESS_WARNINGS_KEY_UNCHECKED
-		public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE to, boolean inclusive) { return EMPTY_SET; }
+		public SORTED_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE to) { return EMPTY_SET; }
 
 		@Override
 		public KEY_GENERIC_TYPE FIRST() { throw new NoSuchElementException(); }
@@ -79,52 +69,40 @@ public final class SORTED_SETS {
 		@Override
 		public KEY_COMPARATOR KEY_SUPER_GENERIC comparator() { return null; }
 
+#if KEYS_PRIMITIVE
+		/** {@inheritDoc}
+		 * @deprecated Please use the corresponding type-specific method instead. */
+		@Deprecated
+		@Override
+		public SORTED_SET KEY_GENERIC subSet(KEY_GENERIC_CLASS from, KEY_GENERIC_CLASS to) { return EMPTY_SET; }
+
+		/** {@inheritDoc}
+		 * @deprecated Please use the corresponding type-specific method instead. */
+		@Deprecated
+		@Override
+		public SORTED_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS from) { return EMPTY_SET; }
+
+		/** {@inheritDoc}
+		 * @deprecated Please use the corresponding type-specific method instead. */
+		@Deprecated
+		@Override
+		public SORTED_SET KEY_GENERIC tailSet(KEY_GENERIC_CLASS to) { return EMPTY_SET; }
+
+		/** {@inheritDoc}
+		 * @deprecated Please use the corresponding type-specific method instead. */
+		@Deprecated
+		@Override
+		public KEY_GENERIC_CLASS first() { throw new NoSuchElementException(); }
+
+		/** {@inheritDoc}
+		 * @deprecated Please use the corresponding type-specific method instead. */
+		@Deprecated
+		@Override
+		public KEY_GENERIC_CLASS last() { throw new NoSuchElementException(); }
+#endif
+
 		@Override
 		public Object clone() { return EMPTY_SET; }
-
-		@Override
-		public KEY_GENERIC_TYPE ceilingOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue) { return defaultValue; }
-
-		@Override
-		public KEY_GENERIC_TYPE floorOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue) { return defaultValue; }
-
-		@Override
-		public KEY_GENERIC_TYPE higherOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue) { return defaultValue; }
-
-		@Override
-		public KEY_GENERIC_TYPE lowerOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue) { return defaultValue; }
-
-		@Override
-		public KEY_GENERIC_TYPE pollFirstOrDefault(KEY_GENERIC_TYPE defaultValue) { return defaultValue; }
-
-		@Override
-		public KEY_GENERIC_TYPE pollLastOrDefault(KEY_GENERIC_TYPE defaultValue) { return defaultValue; }
-
-#if KEYS_PRIMITIVE
-		@Deprecated
-		@Override
-		public KEY_GENERIC_CLASS ceiling(KEY_GENERIC_CLASS e) { return null; }
-
-		@Deprecated
-		@Override
-		public KEY_GENERIC_CLASS floor(KEY_GENERIC_CLASS e) { return null; }
-
-		@Deprecated
-		@Override
-		public KEY_GENERIC_CLASS higher(KEY_GENERIC_CLASS e) { return null; }
-
-		@Deprecated
-		@Override
-		public KEY_GENERIC_CLASS lower(KEY_GENERIC_CLASS e) { return null; }
-
-		@Deprecated
-		@Override
-		public KEY_GENERIC_CLASS pollFirst() { return null; }
-
-		@Deprecated
-		@Override
-		public KEY_GENERIC_CLASS pollLast() { return null; }
-#endif
 
 		private Object readResolve() { return EMPTY_SET; }
 	}
