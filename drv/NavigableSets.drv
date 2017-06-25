@@ -1,0 +1,172 @@
+/*
+ * Copyright (C) 2017 Peter Burka and Sebastiano Vigna
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+package PACKAGE;
+
+import java.util.NavigableSet;
+import java.util.NoSuchElementException;
+
+
+/** A class providing static methods and objects that do useful things with type-specific navigable sets.
+ *
+ * @see java.util.Collections
+ */
+
+public final class NAVIGABLE_SETS {
+
+	private NAVIGABLE_SETS() {}
+
+	/** An immutable class representing the empty navigable set and implementing a type-specific set interface.
+	 *
+	 * <p>This class may be useful to implement your own in case you subclass
+	 * a type-specific sorted set.
+	 */
+
+	public static class EmptySet KEY_GENERIC extends SORTED_SETS.EmptySet KEY_GENERIC implements NAVIGABLE_SET KEY_GENERIC, java.io.Serializable, Cloneable {
+		private static final long serialVersionUID = -7046029254386353129L; // TODO: change
+
+		protected EmptySet() {}
+
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public KEY_BIDI_ITERATOR KEY_GENERIC descendingIterator() { return ITERATORS.EMPTY_ITERATOR; }
+
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC descendingSet() { return EMPTY_SET; }
+
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_TYPE from, boolean fromInclusive, KEY_GENERIC_TYPE to, boolean toInclusive) { return EMPTY_SET; }
+
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_TYPE from, KEY_GENERIC_TYPE to) { return EMPTY_SET; }
+
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE from, boolean inclusive) { return EMPTY_SET; }
+
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE from) { return EMPTY_SET; }
+
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE to, boolean inclusive) { return EMPTY_SET; }
+
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE to) { return EMPTY_SET; }
+
+		@Override
+		public KEY_GENERIC_TYPE ceilingOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue) { return defaultValue; }
+
+		@Override
+		public KEY_GENERIC_TYPE floorOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue) { return defaultValue; }
+
+		@Override
+		public KEY_GENERIC_TYPE higherOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue) { return defaultValue; }
+
+		@Override
+		public KEY_GENERIC_TYPE lowerOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue) { return defaultValue; }
+
+		@Override
+		public KEY_GENERIC_TYPE pollFirstOrDefault(KEY_GENERIC_TYPE defaultValue) { return defaultValue; }
+
+		@Override
+		public KEY_GENERIC_TYPE pollLastOrDefault(KEY_GENERIC_TYPE defaultValue) { return defaultValue; }
+
+#if KEYS_PRIMITIVE
+		@Deprecated
+                @Override
+                SUPPRESS_WARNINGS_KEY_UNCHECKED
+                public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_CLASS from, boolean fromInclusive, KEY_GENERIC_CLASS to, boolean toInclusive) { return EMPTY_SET; }
+
+		@Deprecated
+                @Override
+                SUPPRESS_WARNINGS_KEY_UNCHECKED
+                public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_CLASS from, KEY_GENERIC_CLASS to) { return EMPTY_SET; }
+
+		@Deprecated
+                @Override
+                SUPPRESS_WARNINGS_KEY_UNCHECKED
+                public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS from, boolean inclusive) { return EMPTY_SET; }
+
+		@Deprecated
+                @Override
+                SUPPRESS_WARNINGS_KEY_UNCHECKED
+                public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS from) { return EMPTY_SET; }
+
+		@Deprecated
+                @Override
+                SUPPRESS_WARNINGS_KEY_UNCHECKED
+                public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_CLASS to, boolean inclusive) { return EMPTY_SET; }
+
+		@Deprecated
+                @Override
+                SUPPRESS_WARNINGS_KEY_UNCHECKED
+                public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_CLASS to) { return EMPTY_SET; }
+
+		@Deprecated
+		@Override
+		public KEY_GENERIC_CLASS ceiling(KEY_GENERIC_CLASS e) { return null; }
+
+		@Deprecated
+		@Override
+		public KEY_GENERIC_CLASS floor(KEY_GENERIC_CLASS e) { return null; }
+
+		@Deprecated
+		@Override
+		public KEY_GENERIC_CLASS higher(KEY_GENERIC_CLASS e) { return null; }
+
+		@Deprecated
+		@Override
+		public KEY_GENERIC_CLASS lower(KEY_GENERIC_CLASS e) { return null; }
+
+		@Deprecated
+		@Override
+		public KEY_GENERIC_CLASS pollFirst() { return null; }
+
+		@Deprecated
+		@Override
+		public KEY_GENERIC_CLASS pollLast() { return null; }
+#endif
+
+		private Object readResolve() { return EMPTY_SET; }
+	}
+
+
+	/** An empty sorted set (immutable). It is serializable and cloneable.
+	 *
+	 */
+	SUPPRESS_WARNINGS_KEY_RAWTYPES
+	public static final EmptySet EMPTY_SET = new EmptySet();
+
+#if KEYS_REFERENCE
+	/** Returns an empty sorted set (immutable). It is serializable and cloneable.
+	 *
+	 * <p>This method provides a typesafe access to {@link #EMPTY_SET}.
+	 * @return an empty sorted set (immutable).
+	 */
+	@SuppressWarnings("unchecked")
+	public static KEY_GENERIC SET KEY_GENERIC emptySet() {
+		return EMPTY_SET;
+	}
+#endif
+
+}

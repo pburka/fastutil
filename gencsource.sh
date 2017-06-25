@@ -407,6 +407,7 @@ fi)\
 "#define COLLECTIONS ${TYPE_CAP[$k]}Collections\n"\
 "#define SETS ${TYPE_CAP[$k]}Sets\n"\
 "#define SORTED_SETS ${TYPE_CAP[$k]}SortedSets\n"\
+"#define NAVIGABLE_SETS ${TYPE_CAP[$k]}NavigableSets\n"\
 "#define LISTS ${TYPE_CAP[$k]}Lists\n"\
 "#define BIG_LISTS ${TYPE_CAP[$k]}BigLists\n"\
 "#define MAPS ${TYPE_CAP[$k]}2${TYPE_CAP[$v]}Maps\n"\

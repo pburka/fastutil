@@ -466,6 +466,12 @@ $(SORTED_SETS_STATIC): drv/SortedSets.drv; ./gencsource.sh $< $@ >$@
 CSOURCES += $(SORTED_SETS_STATIC)
 
 
+NAVIGABLE_SETS_STATIC := $(foreach k,$(TYPE_NOBOOL), $(GEN_SRCDIR)/$(PKG_PATH)/$(PACKAGE_$(k))/$(k)NavigableSets.c)
+$(NAVIGABLE_SETS_STATIC): drv/NavigableSets.drv; ./gencsource.sh $< $@ >$@
+
+CSOURCES += $(NAVIGABLE_SETS_STATIC)
+
+
 LISTS_STATIC := $(foreach k,$(TYPE), $(GEN_SRCDIR)/$(PKG_PATH)/$(PACKAGE_$(k))/$(k)Lists.c)
 $(LISTS_STATIC): drv/Lists.drv; ./gencsource.sh $< $@ >$@
 
