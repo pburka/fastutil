@@ -17,9 +17,10 @@
 
 package PACKAGE;
 
-import java.util.NavigableSet;
-import java.util.NoSuchElementException;
-
+#if KEYS_REFERENCE
+import java.util.Collection;
+import java.util.Comparator;
+#endif
 
 /** A class providing static methods and objects that do useful things with type-specific navigable sets.
  *
@@ -37,13 +38,17 @@ public final class NAVIGABLE_SETS {
 	 */
 
 	public static class EmptySet KEY_GENERIC extends SORTED_SETS.EmptySet KEY_GENERIC implements NAVIGABLE_SET KEY_GENERIC, java.io.Serializable, Cloneable {
-		private static final long serialVersionUID = -7046029254386353129L; // TODO: change
+		private static final long serialVersionUID = -6551416770079586111L;
 
 		protected EmptySet() {}
 
 		@Override
 		SUPPRESS_WARNINGS_KEY_UNCHECKED
 		public KEY_BIDI_ITERATOR KEY_GENERIC descendingIterator() { return ITERATORS.EMPTY_ITERATOR; }
+
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public KEY_BIDI_ITERATOR KEY_GENERIC descendingIterator(KEY_GENERIC_TYPE fromElement) { return ITERATORS.EMPTY_ITERATOR; }
 
 		@Override
 		SUPPRESS_WARNINGS_KEY_UNCHECKED
@@ -93,34 +98,34 @@ public final class NAVIGABLE_SETS {
 
 #if KEYS_PRIMITIVE
 		@Deprecated
-                @Override
-                SUPPRESS_WARNINGS_KEY_UNCHECKED
-                public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_CLASS from, boolean fromInclusive, KEY_GENERIC_CLASS to, boolean toInclusive) { return EMPTY_SET; }
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_CLASS from, boolean fromInclusive, KEY_GENERIC_CLASS to, boolean toInclusive) { return EMPTY_SET; }
 
 		@Deprecated
-                @Override
-                SUPPRESS_WARNINGS_KEY_UNCHECKED
-                public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_CLASS from, KEY_GENERIC_CLASS to) { return EMPTY_SET; }
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_CLASS from, KEY_GENERIC_CLASS to) { return EMPTY_SET; }
 
 		@Deprecated
-                @Override
-                SUPPRESS_WARNINGS_KEY_UNCHECKED
-                public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS from, boolean inclusive) { return EMPTY_SET; }
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS from, boolean inclusive) { return EMPTY_SET; }
 
 		@Deprecated
-                @Override
-                SUPPRESS_WARNINGS_KEY_UNCHECKED
-                public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS from) { return EMPTY_SET; }
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS from) { return EMPTY_SET; }
 
 		@Deprecated
-                @Override
-                SUPPRESS_WARNINGS_KEY_UNCHECKED
-                public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_CLASS to, boolean inclusive) { return EMPTY_SET; }
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_CLASS to, boolean inclusive) { return EMPTY_SET; }
 
 		@Deprecated
-                @Override
-                SUPPRESS_WARNINGS_KEY_UNCHECKED
-                public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_CLASS to) { return EMPTY_SET; }
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_CLASS to) { return EMPTY_SET; }
 
 		@Deprecated
 		@Override
@@ -169,4 +174,218 @@ public final class NAVIGABLE_SETS {
 	}
 #endif
 
+	/** A wrapper class offering a descending view on the wrapped, type-specific navigable set.
+	 *
+	 * <p>This class may be useful to implement your own in case you subclass
+	 * a type-specific sorted set.
+	 */
+
+	public static class DescendingSet KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC implements NAVIGABLE_SET KEY_GENERIC, java.io.Serializable, Cloneable {
+		private static final long serialVersionUID = 6406111314162558193L;
+
+		private final NAVIGABLE_SET KEY_GENERIC set;
+
+		protected DescendingSet(NAVIGABLE_SET KEY_GENERIC set) { this.set = set; }
+
+		@Override
+		public int size() { return set.size(); }
+
+		@Override
+		public boolean add(KEY_GENERIC_TYPE key) { return set.add(key); }
+
+		@Override
+		public boolean contains(KEY_TYPE key) { return set.contains(key); }
+
+#if KEYS_PRIMITIVE
+		@Override
+		@Deprecated
+		public boolean rem(KEY_TYPE key) { return set.rem(key); }
+#endif
+
+#if KEYS_PRIMITIVE
+		@Override
+		public boolean addAll(COLLECTION KEY_GENERIC c) { return set.addAll(c); }
+
+		@Override
+		public boolean containsAll(COLLECTION KEY_GENERIC c) { return set.containsAll(c); }
+
+		@Override
+		public boolean removeAll(COLLECTION KEY_GENERIC c) { return set.removeAll(c); }
+
+		@Override
+		public boolean retainAll(COLLECTION KEY_GENERIC c) { return set.retainAll(c); }
+#else
+		@Override
+		public boolean addAll(Collection KEY_EXTENDS_GENERIC c) { return set.addAll(c); }
+
+		@Override
+		public boolean containsAll(Collection KEY_GENERIC_WILDCARD c) { return set.containsAll(c); }
+
+		@Override
+		public boolean removeAll(Collection KEY_GENERIC_WILDCARD c) { return set.removeAll(c); }
+
+		@Override
+		public boolean retainAll(Collection KEY_GENERIC_WILDCARD c) { return set.retainAll(c); }
+#endif
+
+		@Override
+		public 	KEY_BIDI_ITERATOR KEY_GENERIC iterator() { return set.descendingIterator(); }
+
+		@Override
+		public KEY_BIDI_ITERATOR KEY_GENERIC iterator(KEY_GENERIC_TYPE fromElement) { return set.descendingIterator(fromElement); }
+
+		@Override
+		public 	KEY_BIDI_ITERATOR KEY_GENERIC descendingIterator() { return set.iterator(); }
+
+		@Override
+		public KEY_BIDI_ITERATOR KEY_GENERIC descendingIterator(KEY_GENERIC_TYPE fromElement) { return set.iterator(fromElement); }
+
+		@Override
+		public NAVIGABLE_SET KEY_GENERIC descendingSet() { return set; }
+
+#if KEYS_PRIMITIVE
+		@Override
+		@Deprecated
+		public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_CLASS fromElement, boolean fromInclusive, KEY_GENERIC_CLASS toElement, boolean toInclusive) {
+			return set.subSet(toElement, toInclusive, fromElement, fromInclusive).descendingSet();
+		}
+
+		@Override
+		@Deprecated
+		public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_CLASS fromElement, KEY_GENERIC_CLASS toElement) {
+			return subSet(fromElement, true, toElement, false);
+		}
+#endif
+
+		@Override
+		public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_TYPE fromElement, boolean fromInclusive, KEY_GENERIC_TYPE toElement, boolean toInclusive) {
+			return set.subSet(toElement, toInclusive, fromElement, fromInclusive).descendingSet();
+		}
+
+		@Override
+		public NAVIGABLE_SET KEY_GENERIC subSet(KEY_GENERIC_TYPE fromElement, KEY_GENERIC_TYPE toElement) {
+			return subSet(fromElement, true, toElement, false);
+		}
+
+		@Override
+		public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE to) {
+			return headSet(to, true);
+		}
+
+		@Override
+		public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE to, boolean inclusive) {
+			return set.tailSet(to, inclusive).descendingSet();
+		}
+
+		@Override
+		public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE from) {
+			return tailSet(from, true);
+		}
+
+		@Override
+		public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE from, boolean inclusive) {
+			return set.headSet(from, inclusive).descendingSet();
+		}
+		
+		@Override
+		public KEY_GENERIC_TYPE LAST() { return set.FIRST(); }
+
+		@Override
+		public KEY_GENERIC_TYPE FIRST() { return set.LAST(); }
+
+		@Override
+		public KEY_GENERIC_TYPE ceilingOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue) { return set.floorOrDefault(e, defaultValue); }
+
+		@Override
+		public KEY_GENERIC_TYPE floorOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue) { return set.ceilingOrDefault(e, defaultValue); }
+
+		@Override
+		public KEY_GENERIC_TYPE higherOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue) { return set.lowerOrDefault(e, defaultValue); }
+
+		@Override
+		public KEY_GENERIC_TYPE lowerOrDefault(KEY_GENERIC_TYPE e, KEY_GENERIC_TYPE defaultValue) { return set.higherOrDefault(e, defaultValue); }
+
+		@Override
+		public KEY_GENERIC_TYPE pollFirstOrDefault(KEY_GENERIC_TYPE defaultValue) { return set.pollLastOrDefault(defaultValue); }
+
+		@Override
+		public KEY_GENERIC_TYPE pollLastOrDefault(KEY_GENERIC_TYPE defaultValue) { return set.pollFirstOrDefault(defaultValue); }
+
+		@Override
+#ifdef KEYS_PRIMITIVE
+		@Deprecated
+#endif
+		public KEY_GENERIC_CLASS ceiling(KEY_GENERIC_CLASS e) { return set.floor(e); }
+
+		@Override
+#ifdef KEYS_PRIMITIVE
+		@Deprecated
+#endif
+		public KEY_GENERIC_CLASS floor(KEY_GENERIC_CLASS e) { return set.ceiling(e); }
+
+		@Override
+#ifdef KEYS_PRIMITIVE
+		@Deprecated
+#endif
+		public KEY_GENERIC_CLASS higher(KEY_GENERIC_CLASS e) { return set.lower(e); }
+
+		@Override
+#ifdef KEYS_PRIMITIVE
+		@Deprecated
+#endif
+		public KEY_GENERIC_CLASS lower(KEY_GENERIC_CLASS e) { return set.higher(e); }
+
+		@Override
+#ifdef KEYS_PRIMITIVE
+		@Deprecated
+#endif
+		public KEY_GENERIC_CLASS pollFirst() { return set.pollLast(); }
+
+		@Override
+#ifdef KEYS_PRIMITIVE
+		@Deprecated
+#endif
+		public KEY_GENERIC_CLASS pollLast() { return set.pollFirst(); }
+
+#if KEYS_PRIMITIVE
+		@Override
+		@Deprecated
+		public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS to) {
+			return headSet(to, false);
+		}
+
+		@Override
+		@Deprecated
+		public NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_CLASS to, boolean inclusive) {
+			return set.tailSet(to, inclusive).descendingSet();
+		}
+
+		@Override
+		@Deprecated
+		public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_CLASS from) {
+			return tailSet(from, true);
+		}
+
+		@Override
+		@Deprecated
+		public NAVIGABLE_SET KEY_GENERIC tailSet(KEY_GENERIC_CLASS from, boolean inclusive) {
+			return set.headSet(from, inclusive).descendingSet();
+		}
+
+		@Override
+		@Deprecated
+		public KEY_GENERIC_CLASS last() { return set.first(); }
+
+		@Override
+		@Deprecated
+		public KEY_GENERIC_CLASS first() { return set.last(); }
+#endif
+
+		@Override
+		SUPPRESS_WARNINGS_KEY_UNCHECKED
+		public KEY_COMPARATOR KEY_SUPER_GENERIC comparator() { 
+			KEY_COMPARATOR KEY_SUPER_GENERIC c = set.comparator();
+			return c == null ? COMPARATORS.OPPOSITE_COMPARATOR : COMPARATORS.oppositeComparator(c);
+		}
+	}
 }

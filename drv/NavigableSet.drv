@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-// TODOs:
-// - consider adding descendingIterator(k), to match SORTED_SET#iterator(k)
-//
-
 package PACKAGE;
 
 import java.util.NavigableSet;
@@ -53,6 +49,8 @@ public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, Navig
 
 	@Override
 	KEY_BIDI_ITERATOR KEY_GENERIC descendingIterator();
+
+	KEY_BIDI_ITERATOR KEY_GENERIC descendingIterator(KEY_GENERIC_TYPE fromElement);
 
 	@Override
 	NAVIGABLE_SET KEY_GENERIC descendingSet();
