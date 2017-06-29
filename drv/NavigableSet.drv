@@ -67,9 +67,6 @@ public interface NAVIGABLE_SET KEY_GENERIC extends SORTED_SET KEY_GENERIC, Navig
 #endif
 	NAVIGABLE_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE to, boolean inclusive);
 
-	@Override
-	KEY_BIDI_ITERATOR KEY_GENERIC iterator();
-
 #if KEYS_REFERENCE
 	@Override
 #endif
