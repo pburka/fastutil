@@ -152,6 +152,9 @@ public final class NAVIGABLE_SETS {
 		public KEY_GENERIC_CLASS pollLast() { return null; }
 #endif
 
+		@Override
+		public Object clone() { return EMPTY_SET; }
+
 		private Object readResolve() { return EMPTY_SET; }
 	}
 
@@ -180,7 +183,7 @@ public final class NAVIGABLE_SETS {
 	 * a type-specific sorted set.
 	 */
 
-	public static class DescendingSet KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC implements NAVIGABLE_SET KEY_GENERIC, java.io.Serializable, Cloneable {
+	public static class DescendingSet KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC implements NAVIGABLE_SET KEY_GENERIC, java.io.Serializable {
 		private static final long serialVersionUID = 6406111314162558193L;
 
 		private final NAVIGABLE_SET KEY_GENERIC set;
