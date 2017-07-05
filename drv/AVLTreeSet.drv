@@ -1157,13 +1157,13 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 		private static final long serialVersionUID = -7046029254386353129L;
 
 		/** The start of the subset range, unless {@link #bottom} is true. */
-		KEY_GENERIC_TYPE from;
+		final KEY_GENERIC_TYPE from;
 		/** The end of the subset range, unless {@link #top} is true. */
-		KEY_GENERIC_TYPE to;
+		final KEY_GENERIC_TYPE to;
 		/** If true, the subset range starts from -&infin;. */
-		boolean bottom;
+		final boolean bottom;
 		/** If true, the subset range goes to &infin;. */
-		boolean top;
+		final boolean top;
 
 		/** Creates a new subset with given key range.
 		 *
@@ -1190,13 +1190,28 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 			}
 		}
 
+		/** Checks whether a key is below the subset range.
+		 * @param k a key.
+		 * @return true if the key is below the beginning of the subset range.
+		 */
+		final boolean isBelowBottom(final KEY_GENERIC_TYPE k) {
+			return !bottom && AVL_TREE_SET.this.compare(k, from) < 0;
+		}
+
+		/** Checks whether a key is above the subset range.
+		 * @param k a key.
+		 * @return true if the key is past the end of the subset range.
+		 */
+		final boolean isAboveTop(final KEY_GENERIC_TYPE k) {
+			return !top && AVL_TREE_SET.this.compare(k, to) >= 0;
+		}
+
 		/** Checks whether a key is in the subset range.
 		 * @param k a key.
 		 * @return true if is the key is in the subset range.
 		 */
 		final boolean in(final KEY_GENERIC_TYPE k) {
-			return (bottom || AVL_TREE_SET.this.compare(k, from) >= 0) &&
-				(top || AVL_TREE_SET.this.compare(k, to) < 0);
+			return !isBelowBottom(k) && !isAboveTop(k);
 		}
 
 		SUPPRESS_WARNINGS_KEY_UNCHECKED
@@ -1244,23 +1259,24 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 		public KEY_BIDI_ITERATOR KEY_GENERIC iterator(final KEY_GENERIC_TYPE from) { return new SubsetIterator(from); }
 
 		@Override
-		public SORTED_SET KEY_GENERIC headSet(final KEY_GENERIC_TYPE to) {
-			if (top) return new Subset(from, bottom, to, false);
-			return compare(to, this.to) < 0 ? new Subset(from, bottom, to, false) : this;
+		public SORTED_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE to) {
+			if (isAboveTop(to)) to = this.to;
+			if (! top && to == this.to) return this;
+			return new Subset(from, bottom, to, false);
 		}
 
 		@Override
-		public SORTED_SET KEY_GENERIC tailSet(final KEY_GENERIC_TYPE from) {
-			if (bottom) return new Subset(from, false, to, top);
-			return compare(from, this.from) > 0 ? new Subset(from, false, to, top) : this;
+		public SORTED_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE from) {
+			if (isBelowBottom(from)) from = this.from;
+			if (! bottom && from == this.from) return this;
+			return new Subset(from, false, to, top);
 		}
 
 		@Override
 		public SORTED_SET KEY_GENERIC subSet(KEY_GENERIC_TYPE from, KEY_GENERIC_TYPE to) {
-			if (top && bottom) return new Subset(from, false, to, false);
-			if (! top) to = compare(to, this.to) < 0 ? to : this.to;
-			if (! bottom) from = compare(from, this.from) > 0 ? from : this.from;
-		    if (! top && ! bottom && from == this.from && to == this.to) return this;
+			if (isAboveTop(to)) to = this.to;
+			if (isBelowBottom(from)) from = this.from;
+			if (! top && ! bottom && from == this.from && to == this.to) return this;
 			return new Subset(from, false, to, false);
 		}
 
@@ -1276,10 +1292,10 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 			else {
 				e = locateKey(from);
 				// If we find either the start or something greater we're OK.
-				if (compare(e.key, from) < 0) e = e.next();
+				if (isBelowBottom(e.key)) e = e.next();
 			}
 			// Finally, if this subset doesn't go to infinity, we check that the resulting key isn't greater than the end.
-			if (e == null || ! top && compare(e.key, to) >= 0) return null;
+			if (e == null || isAboveTop(e.key)) return null;
 			return e;
 		}
 
@@ -1295,10 +1311,10 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 			else {
 				e = locateKey(to);
 				// If we find something smaller than the end we're OK.
-				if (compare(e.key, to) >= 0) e = e.prev();
+				if (isAboveTop(e.key)) e = e.prev();
 			}
 			// Finally, if this subset doesn't go to -infinity, we check that the resulting key isn't smaller than the start.
-			if (e == null || ! bottom && compare(e.key, from) < 0) return null;
+			if (e == null || isBelowBottom(e.key)) return null;
 			return e;
 		}
 
@@ -1349,13 +1365,13 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 			@Override
 			void updatePrevious() {
 				prev = prev.prev();
-				if (! bottom && prev != null && AVL_TREE_SET.this.compare(prev.key, from) < 0) prev = null;
+				if (prev != null && isBelowBottom(prev.key)) prev = null;
 			}
 
 			@Override
 			void updateNext() {
 				next = next.next();
-				if (! top && next != null && AVL_TREE_SET.this.compare(next.key, to) >= 0) next = null;
+				if (next != null && isAboveTop(next.key)) next = null;
 			}
 		}
 	}
