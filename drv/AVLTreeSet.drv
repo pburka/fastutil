@@ -1144,6 +1144,10 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 	@Override
 	public SORTED_SET KEY_GENERIC subSet(final KEY_GENERIC_TYPE from, final KEY_GENERIC_TYPE to) { return new Subset(from, false, to, false); }
 
+	private static enum Bound {
+		Inclusive, Exclusive, Unbounded,
+	}
+
 	/** A subset with given range.
 	 *
 	 * <p>This class represents a subset. One has to specify the left/right
@@ -1161,9 +1165,9 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 		/** The end of the subset range, unless {@link #top} is true. */
 		final KEY_GENERIC_TYPE to;
 		/** If true, the subset range starts from -&infin;. */
-		final boolean bottom;
+		final Bound fromBound;
 		/** If true, the subset range goes to &infin;. */
-		final boolean top;
+		final Bound toBound;
 
 		/** Creates a new subset with given key range.
 		 *
@@ -1173,13 +1177,19 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 		 * @param top if true, the third parameter is ignored and the range goes to &infin;.
 		 */
 		public Subset(final KEY_GENERIC_TYPE from, final boolean bottom, final KEY_GENERIC_TYPE to, final boolean top) {
-			if (! bottom && ! top && AVL_TREE_SET.this.compare(from, to) > 0) throw new IllegalArgumentException("Start element (" + from  + ") is larger than end element (" + to + ")");
+			this(from, bottom ? Bound.Unbounded : Bound.Inclusive, to, top ? Bound.Unbounded : Bound.Exclusive);
+		}
+
+		public Subset(final KEY_GENERIC_TYPE from, final Bound fromBound, final KEY_GENERIC_TYPE to, final Bound toBound) {
+			if (fromBound != Bound.Unbounded && toBound != Bound.Unbounded && AVL_TREE_SET.this.compare(from, to) > 0)
+				throw new IllegalArgumentException("Start element (" + from  + ") is larger than end element (" + to + ")");
 
 			this.from = from;
-			this.bottom = bottom;
+			this.fromBound = fromBound;
 			this.to = to;
-			this.top = top;
+			this.toBound = toBound;
 		}
+
 
 		@Override
 		public void clear() {
@@ -1195,7 +1205,9 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 		 * @return true if the key is below the beginning of the subset range.
 		 */
 		final boolean isBelowBottom(final KEY_GENERIC_TYPE k) {
-			return !bottom && AVL_TREE_SET.this.compare(k, from) < 0;
+			if (fromBound == Bound.Unbounded) return false;
+			int c = AVL_TREE_SET.this.compare(k, from);
+			return fromBound == Bound.Inclusive ? c < 0 : c <= 0;
 		}
 
 		/** Checks whether a key is above the subset range.
@@ -1203,7 +1215,9 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 		 * @return true if the key is past the end of the subset range.
 		 */
 		final boolean isAboveTop(final KEY_GENERIC_TYPE k) {
-			return !top && AVL_TREE_SET.this.compare(k, to) >= 0;
+			if (toBound == Bound.Unbounded) return false;
+			int c = AVL_TREE_SET.this.compare(k, to);
+			return toBound == Bound.Inclusive ? c > 0 : c >= 0;
 		}
 
 		/** Checks whether a key is in the subset range.
@@ -1214,6 +1228,14 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 			return !isBelowBottom(k) && !isAboveTop(k);
 		}
 
+		final String rangeAsString() {
+			return (fromBound == Bound.Exclusive ? "(" : "[")
+			  + (fromBound == Bound.Unbounded ? "-" : String.valueOf(from)) 
+			  + ", " 
+			  + (toBound == Bound.Unbounded ? "-" : String.valueOf(to)) 
+			  + (toBound == Bound.Exclusive ? ")" : "]");
+		}
+
 		SUPPRESS_WARNINGS_KEY_UNCHECKED
 		@Override
 		public boolean contains(final KEY_TYPE k) {
@@ -1222,7 +1244,7 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 
 		@Override
 		public boolean add(final KEY_GENERIC_TYPE  k) {
-			if (! in(k)) throw new IllegalArgumentException("Element (" + k + ") out of range [" + (bottom ? "-" : String.valueOf(from)) + ", " + (top ? "-" : String.valueOf(to)) + ")");
+			if (! in(k)) throw new IllegalArgumentException("Element (" + k + ") out of range " + rangeAsString());
 			return AVL_TREE_SET.this.add(k);
 		}
 
@@ -1261,23 +1283,23 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 		@Override
 		public SORTED_SET KEY_GENERIC headSet(KEY_GENERIC_TYPE to) {
 			if (isAboveTop(to)) to = this.to;
-			if (! top && to == this.to) return this;
-			return new Subset(from, bottom, to, false);
+			if (toBound == Bound.Exclusive && to == this.to) return this;
+			return new Subset(from, fromBound, to, Bound.Exclusive);
 		}
 
 		@Override
 		public SORTED_SET KEY_GENERIC tailSet(KEY_GENERIC_TYPE from) {
 			if (isBelowBottom(from)) from = this.from;
-			if (! bottom && from == this.from) return this;
-			return new Subset(from, false, to, top);
+			if (fromBound == Bound.Inclusive && from == this.from) return this;
+			return new Subset(from, Bound.Inclusive, to, toBound);
 		}
 
 		@Override
 		public SORTED_SET KEY_GENERIC subSet(KEY_GENERIC_TYPE from, KEY_GENERIC_TYPE to) {
 			if (isAboveTop(to)) to = this.to;
 			if (isBelowBottom(from)) from = this.from;
-			if (! top && ! bottom && from == this.from && to == this.to) return this;
-			return new Subset(from, false, to, false);
+			if (fromBound == Bound.Inclusive && toBound == Bound.Exclusive && from == this.from && to == this.to) return this;
+			return new Subset(from, Bound.Inclusive, to, Bound.Exclusive);
 		}
 
 		/** Locates the first entry.
@@ -1288,7 +1310,7 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 			if (tree == null) return null;
 			// If this subset goes to -infinity, we return the main set first entry; otherwise, we locate the start of the set.
 			AVL_TREE_SET.Entry KEY_GENERIC e;
-			if (bottom) e = firstEntry;
+			if (fromBound == Bound.Unbounded) e = firstEntry;
 			else {
 				e = locateKey(from);
 				// If we find either the start or something greater we're OK.
@@ -1307,7 +1329,7 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 			if (tree == null) return null;
 			// If this subset goes to infinity, we return the main set last entry; otherwise, we locate the end of the set.
 			AVL_TREE_SET.Entry KEY_GENERIC e;
-			if (top) e = lastEntry;
+			if (toBound == Bound.Unbounded) e = lastEntry;
 			else {
 				e = locateKey(to);
 				// If we find something smaller than the end we're OK.
@@ -1348,8 +1370,9 @@ public class AVL_TREE_SET KEY_GENERIC extends ABSTRACT_SORTED_SET KEY_GENERIC im
 				this();
 
 				if (next != null) {
-					if (! bottom && compare(k, next.key) < 0) prev = null;
-					else if (! top && compare(k, (prev = lastEntry()).key) >= 0) next = null;
+					// TODO: are these inequalities right for different bounds?
+					if (fromBound != Bound.Unbounded && compare(k, next.key) < 0) prev = null;
+					else if (toBound != Bound.Unbounded && compare(k, (prev = lastEntry()).key) >= 0) next = null;
 					else {
 						next = locateKey(k);
 
